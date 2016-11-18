@@ -73,7 +73,24 @@ public class CardBartok : Card {
 					state = CBState.toTarget;
 				if (state == CBState.to)
 					state = CBState.idle;
+
+				transform.localPosition = bezierPts [bezierPts.Count - 1];
+				transform.rotation = bezierRots [bezierPts.Count - 1];
+				timeStart = 0;
+
+				if (reportFinishTo != null) {
+					reportFinishTo.SendMessage ("CBCallback", this);
+					reportFinishTo = null;
+				} else {
+
+				}
+			} else {
+				Vector3 pos = Utils.Bezier (uC, bezierPts);
+				transform.localPosition = pos;
+				Quaternion rotQ = Utils.Bezier (uC, bezierRots);
+				transform.rotation = rotQ;
 			}
+			break;
 		}
 	}
 }
